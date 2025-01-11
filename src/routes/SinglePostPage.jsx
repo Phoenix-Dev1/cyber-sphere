@@ -1,6 +1,7 @@
 import { Link } from "react-router-dom";
 import Image from "../components/Image";
 import PostMenuActions from "../components/PostMenuActions";
+import Search from "../components/Search";
 
 const SinglePostPage = () => {
   return (
@@ -32,9 +33,61 @@ const SinglePostPage = () => {
         </div>
       </div>
       {/* Content */}
-      <div className="flex flex-col md:flex-row gap-8">
+      <div className="flex flex-col md:flex-row gap-12">
         {/* Text */}
         <div className="lg:text-lg flex flex-col gap-6 text-justify">
+          <p>
+            Lorem ipsum dolor sit, amet consectetur adipisicing elit. Vero in
+            praesentium maiores numquam, maxime illum explicabo repellat esse,
+            expedita quod deleniti voluptate eaque magnam ipsa. Exercitationem
+            non quam quaerat architecto! Ullam quia officia obcaecati veniam
+            earum aliquid laboriosam! Quae ab eaque aspernatur, provident
+            eligendi qui rerum fugiat inventore a necessitatibus deleniti
+            facilis. Quis inventore fuga praesentium ex illum incidunt labore.
+            Voluptate quaerat nemo, minima sequi, aperiam laboriosam tenetur
+            odit dolorem enim reiciendis commodi a libero modi porro quis
+            eligendi nihil, suscipit animi officiis. Reiciendis obcaecati
+            doloribus rerum excepturi tempora deserunt?
+          </p>
+          <p>
+            Lorem ipsum dolor sit, amet consectetur adipisicing elit. Vero in
+            praesentium maiores numquam, maxime illum explicabo repellat esse,
+            expedita quod deleniti voluptate eaque magnam ipsa. Exercitationem
+            non quam quaerat architecto! Ullam quia officia obcaecati veniam
+            earum aliquid laboriosam! Quae ab eaque aspernatur, provident
+            eligendi qui rerum fugiat inventore a necessitatibus deleniti
+            facilis. Quis inventore fuga praesentium ex illum incidunt labore.
+            Voluptate quaerat nemo, minima sequi, aperiam laboriosam tenetur
+            odit dolorem enim reiciendis commodi a libero modi porro quis
+            eligendi nihil, suscipit animi officiis. Reiciendis obcaecati
+            doloribus rerum excepturi tempora deserunt?
+          </p>
+          <p>
+            Lorem ipsum dolor sit, amet consectetur adipisicing elit. Vero in
+            praesentium maiores numquam, maxime illum explicabo repellat esse,
+            expedita quod deleniti voluptate eaque magnam ipsa. Exercitationem
+            non quam quaerat architecto! Ullam quia officia obcaecati veniam
+            earum aliquid laboriosam! Quae ab eaque aspernatur, provident
+            eligendi qui rerum fugiat inventore a necessitatibus deleniti
+            facilis. Quis inventore fuga praesentium ex illum incidunt labore.
+            Voluptate quaerat nemo, minima sequi, aperiam laboriosam tenetur
+            odit dolorem enim reiciendis commodi a libero modi porro quis
+            eligendi nihil, suscipit animi officiis. Reiciendis obcaecati
+            doloribus rerum excepturi tempora deserunt?
+          </p>
+          <p>
+            Lorem ipsum dolor sit, amet consectetur adipisicing elit. Vero in
+            praesentium maiores numquam, maxime illum explicabo repellat esse,
+            expedita quod deleniti voluptate eaque magnam ipsa. Exercitationem
+            non quam quaerat architecto! Ullam quia officia obcaecati veniam
+            earum aliquid laboriosam! Quae ab eaque aspernatur, provident
+            eligendi qui rerum fugiat inventore a necessitatibus deleniti
+            facilis. Quis inventore fuga praesentium ex illum incidunt labore.
+            Voluptate quaerat nemo, minima sequi, aperiam laboriosam tenetur
+            odit dolorem enim reiciendis commodi a libero modi porro quis
+            eligendi nihil, suscipit animi officiis. Reiciendis obcaecati
+            doloribus rerum excepturi tempora deserunt?
+          </p>
           <p>
             Lorem ipsum dolor sit, amet consectetur adipisicing elit. Vero in
             praesentium maiores numquam, maxime illum explicabo repellat esse,
@@ -77,16 +130,20 @@ const SinglePostPage = () => {
         </div>
         {/* Menu */}
         <div className="px-4 h-max sticky top-8">
-          <h1>Author</h1>
-          <div className="">
-            <Image
-              src="/userImg.jpeg"
-              className="w-12 h-12 rounded-full object-cover"
-              width="48"
-              height="48"
-            />
-            <Link to="">John Doe</Link>
-            <p className="">Lorem ipsum dolor sit, amet</p>
+          <h1 className="mb-4 text-sm font-medium">Author</h1>
+          <div className="flex  flex-col gap-4">
+            <div className="flex items-center gap-8">
+              <Image
+                src="/userImg.jpeg"
+                className="w-12 h-12 rounded-full object-cover"
+                width="48"
+                height="48"
+              />
+              <Link to="" className="text-royalblue">
+                John Doe
+              </Link>
+            </div>
+            <p className="text-sm text-gray-500">Lorem ipsum dolor sit, amet</p>
             <div className="flex gap-2">
               <Link>
                 <Image src="facebook.svg" />
@@ -116,7 +173,8 @@ const SinglePostPage = () => {
               Marketing
             </Link>
           </div>
-          <h1 className="">Search</h1>
+          <h1 className="mt-8 mb-4 text-sm font-medium">Search</h1>
+          <Search />
         </div>
       </div>
     </div>
