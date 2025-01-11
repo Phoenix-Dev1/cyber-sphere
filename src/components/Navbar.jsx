@@ -16,7 +16,7 @@ const Navbar = () => {
       {/*LOGO*/}
       <Link to="/" className="flex items-center gap-4 text-2xl font-bold">
         <Image src="logo.png" alt="CyberSphere Logo" width={32} height={32} />
-        <span>Cyber Sphere.</span>
+        <span>CyberSphere.</span>
       </Link>
       {/*MOBILE MENU*/}
       <div className="md:hidden z-10">
