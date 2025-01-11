@@ -1,7 +1,7 @@
 import { useUser } from "@clerk/clerk-react";
 import LoginPage from "./LoginPage.jsx";
+import ReactQuill, { Quill } from "react-quill-new";
 import "react-quill-new/dist/quill.snow.css";
-import ReactQuill from "react-quill-new";
 
 const Write = () => {
   const { isLoaded, isSignedIn } = useUser();
