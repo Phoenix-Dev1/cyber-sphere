@@ -8,19 +8,12 @@ import webHookRouter from "./routes/webhook.route.js";
 const PORT = process.env.PORT || 3001;
 
 const app = express();
+app.use("/webhooks", webHookRouter);
 app.use(express.json());
-
-/*
-  app.get("/test", (req, res) => {
-  res.status(200).send("it works!");
-}); 
-
-*/
 
 app.use("/users", userRouter);
 app.use("/posts", postRouter);
 app.use("/comments", commentRouter);
-app.use("/webhooks", webHookRouter);
 
 app.use((error, req, res, next) => {
   res.status(error.status || 500);
