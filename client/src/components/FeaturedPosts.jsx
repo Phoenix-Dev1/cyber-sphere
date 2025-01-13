@@ -8,7 +8,7 @@ const FeaturedPosts = () => {
       <div className="w-full lg:w1/2 flex flex-col gap-4 ">
         {/* Image */}
         <Image
-          src="featured1.jpeg"
+          src={"featured1.jpeg" || "/placeholderimg.jpg"}
           width="895"
           className="rounded-3xl object-cover"
         />
@@ -32,7 +32,7 @@ const FeaturedPosts = () => {
         <div className="lg:h-1/3 flex justify-between gap-4">
           <div className="w-1/3 aspect-video">
             <Image
-              src="featured2.jpeg"
+              src={"featured2.jpeg" || "/placeholderimg.jpg"}
               width="298"
               className="rounded-3xl object-cover w-full h-full"
             />

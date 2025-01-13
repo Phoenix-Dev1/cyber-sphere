@@ -8,6 +8,7 @@ import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 import Upload from "../components/Upload.jsx";
+import Image from "../components/Image.jsx";
 
 const Write = () => {
   //Validating user signIn
@@ -17,7 +18,7 @@ const Write = () => {
   const [value, setValue] = useState("");
 
   // IMG URL state for DB
-  const [cover, setCover] = useState("");
+  const [cover, setCover] = useState(null);
 
   // Image to upload
   const [img, setImg] = useState("");
@@ -47,6 +48,7 @@ const Write = () => {
   // Getting user token for auth to post a new post
   const { getToken } = useAuth();
 
+  // Post creation mutation
   const mutation = useMutation({
     mutationFn: async (newPost) => {
       const token = await getToken();
@@ -80,14 +82,14 @@ const Write = () => {
     const formData = new FormData(e.target);
 
     const data = {
-      img: cover.filepath || "",
+      img: cover.filePath || "",
       title: formData.get("title"),
       category: formData.get("category"),
       desc: formData.get("desc"),
       content: value,
     };
 
-    // console.log(data);
+    //console.log(data.img.filepath);
 
     // Adding the new post to the DB
     mutation.mutate(data);
@@ -97,11 +99,24 @@ const Write = () => {
     <div className="h-[calc(100vh-64px)] md:h-[calc(100vh-80px)] flex flex-col gap-6 ">
       <h1 className="text-xl font-light">Create a New Post</h1>
       <form onSubmit={handleSubmit} className="flex flex-col gap-6 flex-1 mb-6">
-        <Upload type="image" setProgress={setProgress} setData={setCover}>
-          <button className=" w-max p-2 shadow-md rounded-xl text-sm text-gray-500 bg-white">
-            Add a cover image
-          </button>
-        </Upload>
+        <div className="flex flex-row gap-4 items-center">
+          {/* Cover image upload */}
+          <Upload type="image" setProgress={setProgress} setData={setCover}>
+            <button className=" w-max p-2 shadow-md rounded-xl text-sm text-gray-500 bg-white">
+              Add a cover image
+            </button>
+          </Upload>
+          {/* Display uploaded cover image */}
+          {cover && (cover.filePath || cover.url) && (
+            <Image
+              src={cover.filePath || "/placeholderimg.jpg"}
+              alt="Cover Thumbnail"
+              className="rounded-md shadow-sm"
+              width={48}
+              height={48}
+            />
+          )}
+        </div>
         <input
           className="text-4xl font-semibold bg-transparent outline-none"
           type="text"

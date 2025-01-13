@@ -10,7 +10,7 @@ const Image = ({ src, className, width, height, alt }) => {
       lqip={{ active: true, quality: 20 }}
       width={width}
       height={height}
-      alt={alt}
+      alt={alt || "Image"}
       transformation={[{ width: width, height: height }]}
     />
   );

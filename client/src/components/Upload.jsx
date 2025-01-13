@@ -35,13 +35,13 @@ const Upload = ({ children, type, setProgress, setData }) => {
 
   // Handle image upload success
   const onSuccess = (res) => {
-    console.log(res);
+    //console.log(res);
     setData(res);
   };
 
   // Handle on image upload progress
   const onUploadProgress = (progress) => {
-    console.log(progress);
+    //console.log(progress);
     setProgress(Math.round((progress.loaded / progress.total) * 100));
   };
 
