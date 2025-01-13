@@ -4,12 +4,40 @@ import userRouter from "./routes/user.route.js";
 import postRouter from "./routes/post.route.js";
 import commentRouter from "./routes/comment.route.js";
 import webHookRouter from "./routes/webhook.route.js";
+import { clerkMiddleware, requireAuth } from "@clerk/express";
 
 const PORT = process.env.PORT || 3001;
 
 const app = express();
+app.use(clerkMiddleware());
 app.use("/webhooks", webHookRouter);
 app.use(express.json());
+
+// auth state to verify user
+/*
+app.get("/auth-state", (req, res) => {
+  const authState = req.auth;
+  res.json(authState);
+});
+*/
+
+// protected route
+/*
+app.get("/protect", (req, res) => {
+  const { userId } = req.auth;
+  if (!userId) {
+    return res.status(401).json("not authenticated");
+  }
+  res.status(200).json("Protected");
+});
+*/
+
+// Protected routes using requireAuth from clerk/express
+/*
+app.get("/protect2", requireAuth(), (req, res) => {
+  res.status(200).json("Protected");
+});
+*/
 
 app.use("/users", userRouter);
 app.use("/posts", postRouter);
