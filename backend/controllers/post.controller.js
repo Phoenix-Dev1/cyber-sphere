@@ -1,3 +1,4 @@
+import ImageKit from "imagekit";
 import Post from "../lib/models/post.model.js";
 import User from "../lib/models/user.model.js";
 
@@ -67,4 +68,17 @@ export const deletePost = async (req, res) => {
   }
 
   res.status(200).json("Post has been deleted");
+};
+
+// Define imagekit
+const imagekit = new ImageKit({
+  urlEndpoint: process.env.IK_URL_ENDPOINT,
+  publicKey: process.env.IK_PUBLIC_KEY,
+  privateKey: process.env.IK_PRIVATE_KEY,
+});
+
+// Upload an image using Imagekit
+export const uploadAuth = async (req, res) => {
+  const result = imagekit.getAuthenticationParameters();
+  res.send(result);
 };

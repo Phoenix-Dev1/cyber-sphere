@@ -4,10 +4,13 @@ import {
   getPost,
   createPost,
   deletePost,
+  uploadAuth,
 } from "../controllers/post.controller.js";
 
 const router = express.Router();
 
+// To prevent upload-auth is a slug it's the first route
+router.get("/upload-auth", uploadAuth);
 router.get("/", getPosts);
 router.get("/:slug", getPost);
 router.post("/", createPost);
