@@ -8,6 +8,7 @@ export const getPosts = async (req, res) => {
   const limit = parseInt(req.query.limit) || 2;
 
   const posts = await Post.find()
+    .populate("user", "username") // for using the username field in the postlist
     .limit(limit)
     .skip((page - 1) * limit);
 

@@ -38,7 +38,7 @@ const PostList = () => {
 
   if (status === error) return "An error has occurred: " + error.message;
 
-  // Arranging all post pages in a single array
+  // Flatten all pages of posts into a single array
   const allPosts = data?.pages?.flatMap((page) => page.posts) || [];
 
   console.log(data);
@@ -49,6 +49,7 @@ const PostList = () => {
       next={fetchNextPage}
       hasMore={!!hasNextPage}
       loader={<h4>Loading...</h4>}
+      scrollThreshold={0.2}
       endMessage={
         <p>
           <b>Yay! You have seen it all</b>

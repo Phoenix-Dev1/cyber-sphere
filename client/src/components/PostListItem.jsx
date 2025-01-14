@@ -1,6 +1,7 @@
 import { Link } from "react-router-dom";
 import Image from "./Image";
 import { format } from "timeago.js";
+import { formatCategory } from "../utils/formatCategory";
 
 const PostListItem = ({ post }) => {
   return (
@@ -22,9 +23,11 @@ const PostListItem = ({ post }) => {
         </Link>
         <div className="flex items-center gap-2 text-gray-400 text-sm">
           <span>Written by</span>
-          <Link className="text-royalblue">John Doe</Link>
+          <Link className="text-royalblue">{post.user.username}</Link>
           <span>on</span>
-          <Link className="text-royalblue">Web Design</Link>
+          <Link to={`/${post.category}`} className="text-royalblue">
+            {formatCategory(post.category)}
+          </Link>
           <span>{format(post.createdAt)}</span>
         </div>
         {/* Description */}
