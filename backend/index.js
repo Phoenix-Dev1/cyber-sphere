@@ -13,7 +13,6 @@ const app = express();
 
 // cors - for fetching data on another port | Client url
 app.use(cors(process.env.CLIENT_URL));
-
 app.use(clerkMiddleware());
 app.use("/webhooks", webHookRouter);
 app.use(express.json());
@@ -27,7 +26,6 @@ app.use(function (req, res, next) {
   );
   next();
 });
-
 // auth state to verify user
 /*
 app.get("/auth-state", (req, res) => {

@@ -82,7 +82,7 @@ const Write = () => {
     const formData = new FormData(e.target);
 
     const data = {
-      img: cover.filePath || "",
+      img: cover?.filePath || "",
       title: formData.get("title"),
       category: formData.get("category"),
       desc: formData.get("desc"),
@@ -107,9 +107,9 @@ const Write = () => {
             </button>
           </Upload>
           {/* Display uploaded cover image */}
-          {cover && (cover.filePath || cover.url) && (
+          {cover && (cover?.filePath || cover.url) && (
             <Image
-              src={cover.filePath || "/placeholderimg.jpg"}
+              src={cover?.filePath || "/placeholderimg.jpg"}
               alt="Cover Thumbnail"
               className="rounded-md shadow-sm"
               width={48}

@@ -1,120 +1,63 @@
-import { Link } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
 import Image from "../components/Image";
 import PostMenuActions from "../components/PostMenuActions";
 import Search from "../components/Search";
 import Comments from "../components/Comments";
+import { useQuery } from "@tanstack/react-query";
+import axios from "axios";
+import { formatCategory } from "../utils/formatCategory";
+import { format } from "timeago.js";
+
+const fetchPost = async (slug) => {
+  const res = await axios.get(`${import.meta.env.VITE_API_URL}/posts/${slug}`);
+  return res.data;
+};
 
 const SinglePostPage = () => {
+  const { slug } = useParams();
+
+  const { isPending, error, data } = useQuery({
+    queryKey: ["post", slug],
+    queryFn: () => fetchPost(slug),
+  });
+
+  if (isPending) return <h4>Loading...</h4>;
+  if (error) return <h4>{error.message}</h4>;
+  if (!data) return <h4>"Post Not Found"</h4>;
+
+  // console.log(data);
+
   return (
     <div className="flex flex-col gap-8">
       {/* Details */}
       <div className="flex gap-8">
         <div className="lg:w-3/5 flex flex-col gap-8">
           <h1 className="text-xl md:text-3xl xl:text-4xl 2xl:text-5xl font-semibold">
-            Lorem ipsum dolor sit, amet consectetur adipisicing elit.
+            {data.title}
           </h1>
           <div className=" flex items-center gap-2 text-gray-400 text-sm">
             <span>Written by</span>
             <Link className="text-royalblue " to="/test">
-              John Doe
+              {data.user.username}
             </Link>
             <span>on </span>
-            <Link className="text-royalblue ">Web Design</Link>
-            <span>2 days ago</span>
+            <Link className="text-royalblue ">
+              {formatCategory(data.category)}
+            </Link>
+            <span>{format(data.createdAt)}</span>
           </div>
-          <p className="text-gray-500 font-md">
-            Lorem ipsum dolor sit, amet consectetur adipisicing elit. Error illo
-            itaque, ipsum minus minima asperiores ad dolores possimus aliquam
-            numquam harum eligendi enim sequi delectus facere officia voluptas.
-            Quaerat
-          </p>
+          <p className="text-gray-500 font-md">{data.desc}</p>
         </div>
-        <div className="hidden lg:block w-2/5">
-          <Image src="postImg.jpeg" width="600" className="rounded-2xl" />
-        </div>
+        {data.img && (
+          <div className="hidden lg:block w-2/5">
+            <Image src={data.img} width="600" className="rounded-2xl" />
+          </div>
+        )}
       </div>
       {/* Content */}
       <div className="flex flex-col md:flex-row gap-12">
         {/* Text */}
         <div className="lg:text-lg flex flex-col gap-6 text-justify">
-          <p>
-            Lorem ipsum dolor sit, amet consectetur adipisicing elit. Vero in
-            praesentium maiores numquam, maxime illum explicabo repellat esse,
-            expedita quod deleniti voluptate eaque magnam ipsa. Exercitationem
-            non quam quaerat architecto! Ullam quia officia obcaecati veniam
-            earum aliquid laboriosam! Quae ab eaque aspernatur, provident
-            eligendi qui rerum fugiat inventore a necessitatibus deleniti
-            facilis. Quis inventore fuga praesentium ex illum incidunt labore.
-            Voluptate quaerat nemo, minima sequi, aperiam laboriosam tenetur
-            odit dolorem enim reiciendis commodi a libero modi porro quis
-            eligendi nihil, suscipit animi officiis. Reiciendis obcaecati
-            doloribus rerum excepturi tempora deserunt?
-          </p>
-          <p>
-            Lorem ipsum dolor sit, amet consectetur adipisicing elit. Vero in
-            praesentium maiores numquam, maxime illum explicabo repellat esse,
-            expedita quod deleniti voluptate eaque magnam ipsa. Exercitationem
-            non quam quaerat architecto! Ullam quia officia obcaecati veniam
-            earum aliquid laboriosam! Quae ab eaque aspernatur, provident
-            eligendi qui rerum fugiat inventore a necessitatibus deleniti
-            facilis. Quis inventore fuga praesentium ex illum incidunt labore.
-            Voluptate quaerat nemo, minima sequi, aperiam laboriosam tenetur
-            odit dolorem enim reiciendis commodi a libero modi porro quis
-            eligendi nihil, suscipit animi officiis. Reiciendis obcaecati
-            doloribus rerum excepturi tempora deserunt?
-          </p>
-          <p>
-            Lorem ipsum dolor sit, amet consectetur adipisicing elit. Vero in
-            praesentium maiores numquam, maxime illum explicabo repellat esse,
-            expedita quod deleniti voluptate eaque magnam ipsa. Exercitationem
-            non quam quaerat architecto! Ullam quia officia obcaecati veniam
-            earum aliquid laboriosam! Quae ab eaque aspernatur, provident
-            eligendi qui rerum fugiat inventore a necessitatibus deleniti
-            facilis. Quis inventore fuga praesentium ex illum incidunt labore.
-            Voluptate quaerat nemo, minima sequi, aperiam laboriosam tenetur
-            odit dolorem enim reiciendis commodi a libero modi porro quis
-            eligendi nihil, suscipit animi officiis. Reiciendis obcaecati
-            doloribus rerum excepturi tempora deserunt?
-          </p>
-          <p>
-            Lorem ipsum dolor sit, amet consectetur adipisicing elit. Vero in
-            praesentium maiores numquam, maxime illum explicabo repellat esse,
-            expedita quod deleniti voluptate eaque magnam ipsa. Exercitationem
-            non quam quaerat architecto! Ullam quia officia obcaecati veniam
-            earum aliquid laboriosam! Quae ab eaque aspernatur, provident
-            eligendi qui rerum fugiat inventore a necessitatibus deleniti
-            facilis. Quis inventore fuga praesentium ex illum incidunt labore.
-            Voluptate quaerat nemo, minima sequi, aperiam laboriosam tenetur
-            odit dolorem enim reiciendis commodi a libero modi porro quis
-            eligendi nihil, suscipit animi officiis. Reiciendis obcaecati
-            doloribus rerum excepturi tempora deserunt?
-          </p>
-          <p>
-            Lorem ipsum dolor sit, amet consectetur adipisicing elit. Vero in
-            praesentium maiores numquam, maxime illum explicabo repellat esse,
-            expedita quod deleniti voluptate eaque magnam ipsa. Exercitationem
-            non quam quaerat architecto! Ullam quia officia obcaecati veniam
-            earum aliquid laboriosam! Quae ab eaque aspernatur, provident
-            eligendi qui rerum fugiat inventore a necessitatibus deleniti
-            facilis. Quis inventore fuga praesentium ex illum incidunt labore.
-            Voluptate quaerat nemo, minima sequi, aperiam laboriosam tenetur
-            odit dolorem enim reiciendis commodi a libero modi porro quis
-            eligendi nihil, suscipit animi officiis. Reiciendis obcaecati
-            doloribus rerum excepturi tempora deserunt?
-          </p>
-          <p>
-            Lorem ipsum dolor sit, amet consectetur adipisicing elit. Vero in
-            praesentium maiores numquam, maxime illum explicabo repellat esse,
-            expedita quod deleniti voluptate eaque magnam ipsa. Exercitationem
-            non quam quaerat architecto! Ullam quia officia obcaecati veniam
-            earum aliquid laboriosam! Quae ab eaque aspernatur, provident
-            eligendi qui rerum fugiat inventore a necessitatibus deleniti
-            facilis. Quis inventore fuga praesentium ex illum incidunt labore.
-            Voluptate quaerat nemo, minima sequi, aperiam laboriosam tenetur
-            odit dolorem enim reiciendis commodi a libero modi porro quis
-            eligendi nihil, suscipit animi officiis. Reiciendis obcaecati
-            doloribus rerum excepturi tempora deserunt?
-          </p>
           <p>
             Lorem ipsum dolor sit, amet consectetur adipisicing elit. Vero in
             praesentium maiores numquam, maxime illum explicabo repellat esse,
@@ -134,14 +77,16 @@ const SinglePostPage = () => {
           <h1 className="mb-4 text-sm font-medium">Author</h1>
           <div className="flex  flex-col gap-4">
             <div className="flex items-center gap-8">
-              <Image
-                src="/userImg.jpeg"
-                className="w-12 h-12 rounded-full object-cover"
-                width="48"
-                height="48"
-              />
+              {data.img && (
+                <Image
+                  src={data.img}
+                  className="w-12 h-12 rounded-full object-cover"
+                  width="48"
+                  height="48"
+                />
+              )}
               <Link to="" className="text-royalblue">
-                John Doe
+                {data.user.username}
               </Link>
             </div>
             <p className="text-sm text-gray-500">Lorem ipsum dolor sit, amet</p>
@@ -178,7 +123,7 @@ const SinglePostPage = () => {
           <Search />
         </div>
       </div>
-      <Comments />
+      <Comments postId={data._id} />
     </div>
   );
 };

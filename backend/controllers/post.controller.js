@@ -1,6 +1,6 @@
 import ImageKit from "imagekit";
-import Post from "../lib/models/post.model.js";
-import User from "../lib/models/user.model.js";
+import Post from "../models/post.model.js";
+import User from "../models/user.model.js";
 
 // Get all posts from collection
 export const getPosts = async (req, res) => {
@@ -20,7 +20,10 @@ export const getPosts = async (req, res) => {
 
 // Get a single post from collection
 export const getPost = async (req, res) => {
-  const post = await Post.findOne({ slug: req.params.slug });
+  const post = await Post.findOne({ slug: req.params.slug }).populate(
+    "user",
+    "username img" // for using the username and img fields in SinglePostPage route
+  );
   res.status(200).json(post);
 };
 
