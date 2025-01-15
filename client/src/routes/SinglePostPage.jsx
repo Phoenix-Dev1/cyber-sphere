@@ -58,19 +58,7 @@ const SinglePostPage = () => {
       <div className="flex flex-col md:flex-row gap-12">
         {/* Text */}
         <div className="lg:text-lg flex flex-col gap-6 text-justify">
-          <p>
-            Lorem ipsum dolor sit, amet consectetur adipisicing elit. Vero in
-            praesentium maiores numquam, maxime illum explicabo repellat esse,
-            expedita quod deleniti voluptate eaque magnam ipsa. Exercitationem
-            non quam quaerat architecto! Ullam quia officia obcaecati veniam
-            earum aliquid laboriosam! Quae ab eaque aspernatur, provident
-            eligendi qui rerum fugiat inventore a necessitatibus deleniti
-            facilis. Quis inventore fuga praesentium ex illum incidunt labore.
-            Voluptate quaerat nemo, minima sequi, aperiam laboriosam tenetur
-            odit dolorem enim reiciendis commodi a libero modi porro quis
-            eligendi nihil, suscipit animi officiis. Reiciendis obcaecati
-            doloribus rerum excepturi tempora deserunt?
-          </p>
+          <p>{data.content}</p>
         </div>
         {/* Menu */}
         <div className="px-4 h-max sticky top-8">
@@ -99,7 +87,7 @@ const SinglePostPage = () => {
               </Link>
             </div>
           </div>
-          <PostMenuActions />
+          <PostMenuActions post={data} />
           <h1 className="mt-8 mb-4 text-sm font-medium">Categories</h1>
           <div className="flex flex-col gap-2 text-sm">
             <Link className="underline">All</Link>

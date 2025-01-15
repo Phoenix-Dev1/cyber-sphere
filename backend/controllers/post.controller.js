@@ -70,15 +70,26 @@ export const deletePost = async (req, res) => {
 
   const user = await User.findOne({ clerkUserId });
 
+  if (!user) {
+    return res.status(404).json("User not found");
+  }
+
+  // Find and delete the post
   const deletedPost = await Post.findByIdAndDelete({
     _id: req.params.id,
-    user: user._id,
+    user: user._id, // Ensure the user is the owner of the post
   });
 
   // Check if the post is deleted properly
   if (!deletedPost) {
     return res.status(403).json("Not your post to delete");
   }
+
+  // Remove the post ID from all users' savedPosts arrays
+  await User.updateMany(
+    { savedPosts: req.params.id },
+    { $pull: { savedPosts: req.params.id } }
+  );
 
   res.status(200).json("Post has been deleted");
 };

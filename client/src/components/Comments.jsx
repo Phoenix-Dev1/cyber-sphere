@@ -70,9 +70,30 @@ const Comments = ({ postId }) => {
           Send
         </button>
       </form>
-      {data?.map((comment) => (
-        <Comment key={comment._id} comment={comment} />
-      ))}
+      {isPending ? (
+        "Loading..."
+      ) : error ? (
+        "Error loading comments"
+      ) : (
+        <>
+          {/* Instead of using React useOptimistic - same result */}
+          {mutation.isPending && (
+            <Comment
+              comment={{
+                desc: `${mutation.variables.desc}(Sending..)`,
+                createdAt: new Date(),
+                user: {
+                  img: user.imageUrl,
+                  username: user.username,
+                },
+              }}
+            />
+          )}
+          {data?.map((comment) => (
+            <Comment key={comment._id} comment={comment} />
+          ))}
+        </>
+      )}
     </div>
   );
 };
