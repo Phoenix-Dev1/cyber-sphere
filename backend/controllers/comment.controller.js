@@ -42,6 +42,7 @@ export const deleteComment = async (req, res) => {
 
   const role = req.auth.sessionClaims?.metadata?.role || "user";
 
+  // skip verification for user id if role is admin
   if (role === "admin") {
     await Comment.findByIdAndDelete(req.params.id);
     return res.status(200).json("Comment has been deleted");

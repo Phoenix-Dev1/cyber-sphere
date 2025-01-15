@@ -25,6 +25,8 @@ const PostMenuActions = ({ post }) => {
     },
   });
 
+  const isAdmin = user?.publicMetadata?.role === "admin" || false;
+
   // Cheking if the user is authenticated, if not the value is false
   const isSaved = savedPosts?.data?.some((p) => p === post._id) || false;
 
@@ -125,7 +127,7 @@ const PostMenuActions = ({ post }) => {
           )}
         </div>
       )}
-      {user && post.user.username === user.username && (
+      {user && (post.user.username === user.username || isAdmin) && (
         <div
           className="flex items-center gap-2 py-2 text-sm cursor-pointer"
           onClick={handleDelete}
