@@ -102,7 +102,10 @@ const Write = () => {
         <div className="flex flex-row gap-4 items-center">
           {/* Cover image upload */}
           <Upload type="image" setProgress={setProgress} setData={setCover}>
-            <button className=" w-max p-2 shadow-md rounded-xl text-sm text-gray-500 bg-white">
+            <button
+              type="button"
+              className=" w-max p-2 shadow-md rounded-xl text-sm text-gray-500 bg-white"
+            >
               Add a cover image
             </button>
           </Upload>

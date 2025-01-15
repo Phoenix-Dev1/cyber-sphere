@@ -1,6 +1,7 @@
 import { toast } from "react-toastify";
 import { IKContext, IKUpload } from "imagekitio-react";
 import { useRef } from "react";
+import PropTypes from "prop-types"; // For prop validation
 
 // ImageKit Auth
 const authenticator = async () => {
@@ -24,25 +25,27 @@ const authenticator = async () => {
   }
 };
 
-const Upload = ({ children, type, setProgress, setData }) => {
+const Upload = ({ children, type, setProgress, setData, className, style }) => {
   const ref = useRef(null);
 
-  // Handle image upload error
+  // Handle upload error
   const onError = (err) => {
-    console.log(err);
-    toast.error("Image Upload Failed");
+    console.error(err);
+    toast.error(
+      err.message || "Upload Failed. Please try again or check your connection."
+    );
   };
 
-  // Handle image upload success
+  // Handle upload success
   const onSuccess = (res) => {
-    //console.log(res);
     setData(res);
+    toast.success("Upload Successful!");
   };
 
-  // Handle on image upload progress
+  // Handle upload progress
   const onUploadProgress = (progress) => {
-    //console.log(progress);
-    setProgress(Math.round((progress.loaded / progress.total) * 100));
+    const percentage = Math.round((progress.loaded / progress.total) * 100);
+    setProgress(percentage);
   };
 
   return (
@@ -56,15 +59,33 @@ const Upload = ({ children, type, setProgress, setData }) => {
         onError={onError}
         onSuccess={onSuccess}
         onUploadProgress={onUploadProgress}
-        className="hidden"
+        className="hidden" // Hide the actual file input
         ref={ref}
-        accept={`${type}/*`}
+        accept={`${type}/*`} // Accept specified file type
       />
-      <div className="cursor-pointer" onClick={() => ref.current.click()}>
+      {/* Custom upload button */}
+      <div
+        className={`cursor-pointer ${className || ""}`}
+        style={style}
+        onClick={(e) => {
+          e.preventDefault(); // Prevent accidental form submission
+          ref.current.click(); // Trigger file input click
+        }}
+      >
         {children}
       </div>
     </IKContext>
   );
+};
+
+// Prop validation for better debugging and stricter type checking
+Upload.propTypes = {
+  children: PropTypes.node.isRequired, // Content to render inside the upload button
+  type: PropTypes.oneOf(["image", "video"]).isRequired, // Specify file type (image or video)
+  setProgress: PropTypes.func.isRequired, // Function to handle progress state
+  setData: PropTypes.func.isRequired, // Function to handle uploaded data
+  className: PropTypes.string, // Optional custom CSS classes for the wrapper
+  style: PropTypes.object, // Optional inline styles for the wrapper
 };
 
 export default Upload;

@@ -7,6 +7,7 @@ import { useQuery } from "@tanstack/react-query";
 import axios from "axios";
 import { formatCategory } from "../utils/formatCategory";
 import { format } from "timeago.js";
+import DOMPurify from "dompurify";
 
 const fetchPost = async (slug) => {
   const res = await axios.get(`${import.meta.env.VITE_API_URL}/posts/${slug}`);
@@ -24,6 +25,9 @@ const SinglePostPage = () => {
   if (isPending) return <h4>Loading...</h4>;
   if (error) return <h4>{error.message}</h4>;
   if (!data) return <h4>"Post Not Found"</h4>;
+
+  // Sanitize the HTML content
+  const sanitizedContent = DOMPurify.sanitize(data.content);
 
   // console.log(data);
 
@@ -58,7 +62,7 @@ const SinglePostPage = () => {
       <div className="flex flex-col md:flex-row gap-12">
         {/* Text */}
         <div className="lg:text-lg flex flex-col gap-6 text-justify">
-          <p>{data.content}</p>
+          <div dangerouslySetInnerHTML={{ __html: sanitizedContent }}></div>
         </div>
         {/* Menu */}
         <div className="px-4 h-max sticky top-8">
