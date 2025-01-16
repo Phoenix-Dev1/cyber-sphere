@@ -7,8 +7,62 @@ export const getPosts = async (req, res) => {
   const page = parseInt(req.query.page) || 1;
   const limit = parseInt(req.query.limit) || 2;
 
-  const posts = await Post.find()
+  // Search Queries
+  const query = {};
+
+  const cat = req.query.cat;
+  const author = req.query.author;
+  const searchQuery = req.query.search;
+  const sortQuery = req.query.sort;
+  const featured = req.query.featured;
+
+  // By category
+  if (cat) {
+    query.category = cat;
+  }
+
+  if (searchQuery) {
+    query.title = { $regex: searchQuery, $options: "i" }; // Insensitive
+  }
+
+  if (author) {
+    const user = await User.findOne({ username: author }).select("_id");
+
+    if (!user) {
+      return res.status(404).json("No posts found");
+    }
+
+    query.user = user._id;
+  }
+
+  // Sort queries logic
+  let sortObj = { createdAt: -1 };
+  if (sortQuery) {
+    switch (sortQuery) {
+      case "newest":
+        sortObj = { createdAt: -1 };
+        break;
+      case "oldest":
+        sortObj = { createdAt: 1 };
+        break;
+      case "popular":
+        sortObj = { visit: -1 };
+        break;
+      case "trending":
+        sortObj = { visit: -1 };
+        query.createdAt = {
+          $gte: new Date(new Date().getTime() - 7 * 24 * 60 * 60 * 1000), // Last seven days
+        };
+        break;
+
+      default:
+        break;
+    }
+  }
+
+  const posts = await Post.find(query)
     .populate("user", "username") // for using the username field in the postlist
+    .sort(sortObj)
     .limit(limit)
     .skip((page - 1) * limit);
 

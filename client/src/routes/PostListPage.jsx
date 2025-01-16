@@ -6,7 +6,7 @@ const PostListPage = () => {
   const [open, setOpen] = useState(false);
   return (
     <div className="">
-      <h1 className="mb-8 text-2xl">Development Blog</h1>
+      <h1 className="mb-8 text-2xl">Cyber Sphere</h1>
       <button
         onClick={() => setOpen((prev) => !prev)}
         className="md:hidden bg-royalblue text-sm text-white px-4 py-2 mb-4 rounded-2xl"
