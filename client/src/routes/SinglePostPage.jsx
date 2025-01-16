@@ -1,4 +1,9 @@
-import { Link, useParams } from "react-router-dom";
+import {
+  Link,
+  useParams,
+  useSearchParams,
+  useNavigate,
+} from "react-router-dom";
 import Image from "../components/Image";
 import PostMenuActions from "../components/PostMenuActions";
 import Search from "../components/Search";
@@ -16,6 +21,8 @@ const fetchPost = async (slug) => {
 
 const SinglePostPage = () => {
   const { slug } = useParams();
+  const [searchParams, setSearchParams] = useSearchParams();
+  const navigate = useNavigate();
 
   const { isPending, error, data } = useQuery({
     queryKey: ["post", slug],
@@ -28,6 +35,16 @@ const SinglePostPage = () => {
 
   // Sanitize the HTML content
   const sanitizedContent = DOMPurify.sanitize(data.content);
+
+  // Filter by category change
+  const handleCategoryChange = (category) => {
+    // Update the path to "posts" with the selected category
+    navigate(`/posts?cat=${category}`);
+  };
+
+  const categoryClick = (category) => {
+    navigate(`/posts?cat=${category}`);
+  };
 
   // console.log(data);
 
@@ -45,9 +62,12 @@ const SinglePostPage = () => {
               {data.user.username}
             </Link>
             <span>on </span>
-            <Link className="text-royalblue ">
+            <span
+              className="text-royalblue cursor-pointer"
+              onClick={() => categoryClick(data.category)}
+            >
               {formatCategory(data.category)}
-            </Link>
+            </span>
             <span>{format(data.createdAt)}</span>
           </div>
           <p className="text-gray-500 font-md">{data.desc}</p>
@@ -94,22 +114,42 @@ const SinglePostPage = () => {
           <PostMenuActions post={data} />
           <h1 className="mt-8 mb-4 text-sm font-medium">Categories</h1>
           <div className="flex flex-col gap-2 text-sm">
-            <Link className="underline">All</Link>
-            <Link className="underline" to="/">
+            <span
+              className="underline cursor-pointer"
+              onClick={() => handleCategoryChange("general")}
+            >
+              General
+            </span>
+            <span
+              className="underline cursor-pointer"
+              onClick={() => handleCategoryChange("web-design")}
+            >
               Web Design
-            </Link>
-            <Link className="underline" to="/">
+            </span>
+            <span
+              className="underline cursor-pointer"
+              onClick={() => handleCategoryChange("development")}
+            >
               Development
-            </Link>
-            <Link className="underline" to="/">
+            </span>
+            <span
+              className="underline cursor-pointer"
+              onClick={() => handleCategoryChange("databases")}
+            >
               Databases
-            </Link>
-            <Link className="underline" to="/">
+            </span>
+            <span
+              className="underline cursor-pointer"
+              onClick={() => handleCategoryChange("seo")}
+            >
               Search Engines
-            </Link>
-            <Link className="underline" to="/">
+            </span>
+            <span
+              className="underline cursor-pointer"
+              onClick={() => handleCategoryChange("marketing")}
+            >
               Marketing
-            </Link>
+            </span>
           </div>
           <h1 className="mt-8 mb-4 text-sm font-medium">Search</h1>
           <Search />
