@@ -60,6 +60,11 @@ export const getPosts = async (req, res) => {
     }
   }
 
+  // Display featured posts
+  if (featured) {
+    query.isFeatured = true;
+  }
+
   const posts = await Post.find(query)
     .populate("user", "username") // for using the username field in the postlist
     .sort(sortObj)
