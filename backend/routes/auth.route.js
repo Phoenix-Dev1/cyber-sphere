@@ -1,8 +1,11 @@
 import express from "express";
+import passport from "passport";
 import {
   registerUser,
   loginUser,
   oauthLogin,
+  getUserData,
+  githubCallback,
 } from "../controllers/auth.controller.js";
 
 const router = express.Router();
@@ -13,7 +16,23 @@ router.post("/register", registerUser);
 // Local login
 router.post("/login", loginUser);
 
-// OAuth login/register (GitHub/Google)
-router.post("/oauth", oauthLogin);
+// User data
+router.get("/me", getUserData);
+
+// OAuth Login/Register (GitHub)
+router.get(
+  "/github",
+  passport.authenticate("github", { scope: ["user:email"], session: false }) // Disable session
+);
+
+// GitHub Callback
+router.get(
+  "/github/callback",
+  passport.authenticate("github", {
+    failureRedirect: "/login",
+    session: false,
+  }), // Disable session
+  githubCallback
+);
 
 export default router;

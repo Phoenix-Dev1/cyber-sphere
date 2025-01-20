@@ -8,7 +8,7 @@ import { authenticateJWT } from "../middlewares/jwtAuth.js";
 
 const router = express.Router();
 
-router.get("/:postId", authenticateJWT, getPostComments);
+router.get("/:postId", getPostComments);
 router.post("/:postId", authenticateJWT, addComment);
 router.delete("/:id", authenticateJWT, deleteComment);
 

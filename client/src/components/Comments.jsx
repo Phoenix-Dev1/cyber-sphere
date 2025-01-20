@@ -1,7 +1,7 @@
 import axios from "axios";
 import Comment from "./Comment";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
-import { useAuth, useUser } from "@clerk/clerk-react";
+import { useAuth } from "../context/AuthContext"; // Use custom AuthContext
 import { toast } from "react-toastify";
 
 const fetchComments = async (postId) => {
@@ -12,10 +12,9 @@ const fetchComments = async (postId) => {
 };
 
 const Comments = ({ postId }) => {
-  const { user } = useUser();
-  const { getToken } = useAuth();
+  const { user } = useAuth(); // Access user from AuthContext
 
-  const { isPending, error, data } = useQuery({
+  const { isLoading, error, data } = useQuery({
     queryKey: ["comments", postId],
     queryFn: () => fetchComments(postId),
   });
@@ -24,7 +23,7 @@ const Comments = ({ postId }) => {
 
   const mutation = useMutation({
     mutationFn: async (newComment) => {
-      const token = await getToken();
+      const token = localStorage.getItem("authToken"); // Get token from localStorage
       return axios.post(
         `${import.meta.env.VITE_API_URL}/comments/${postId}`,
         newComment,
@@ -37,9 +36,10 @@ const Comments = ({ postId }) => {
     },
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["comments", postId] });
+      toast.success("Comment added successfully");
     },
     onError: (error) => {
-      toast.error(error.response.data);
+      toast.error(error.response?.data || "Failed to add comment");
     },
   });
 
@@ -70,21 +70,21 @@ const Comments = ({ postId }) => {
           Send
         </button>
       </form>
-      {isPending ? (
+      {isLoading ? (
         "Loading..."
       ) : error ? (
         "Error loading comments"
       ) : (
         <>
-          {/* Instead of using React useOptimistic - same result */}
+          {/* Show optimistic UI during mutation */}
           {mutation.isPending && (
             <Comment
               comment={{
-                desc: `${mutation.variables.desc}(Sending..)`,
+                desc: `${mutation.variables.desc} (Sending...)`,
                 createdAt: new Date(),
                 user: {
-                  img: user.imageUrl,
-                  username: user.username,
+                  img: user.img || "", // Use user image from AuthContext
+                  username: user.username || "Anonymous", // Use username from AuthContext
                 },
               }}
             />
