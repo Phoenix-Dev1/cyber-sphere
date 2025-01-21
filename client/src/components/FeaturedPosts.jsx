@@ -34,6 +34,7 @@ const FeaturedPosts = () => {
           <Image
             src={posts[0].img}
             width="895"
+            height="480"
             className="rounded-3xl object-cover"
           />
         )}

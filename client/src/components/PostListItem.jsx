@@ -12,6 +12,7 @@ const PostListItem = ({ post }) => {
           <Image
             src={post.img}
             width="735"
+            height="400"
             className="rounded-2xl object-cover"
           />
         </div>
@@ -24,10 +25,10 @@ const PostListItem = ({ post }) => {
         <div className="flex items-center gap-2 text-gray-400 text-sm">
           <span>Written by</span>
           <Link
-            to={`/posts?author=${post.user.username}`}
+            to={`/posts?author=${post.user?.username}`}
             className="text-royalblue"
           >
-            {post.user.username}
+            {post.user?.username}
           </Link>
           <span>on</span>
           <Link to={`/${post.category}`} className="text-royalblue">

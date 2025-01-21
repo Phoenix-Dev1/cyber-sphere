@@ -39,6 +39,10 @@ const userSchema = new Schema(
       type: [String],
       default: [], // IDs of saved posts
     },
+    role: {
+      type: String,
+      default: "user",
+    },
   },
   { timestamps: true }
 );

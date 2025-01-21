@@ -7,7 +7,7 @@ import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 import Upload from "../components/Upload.jsx";
 import Image from "../components/Image.jsx";
-import { useAuth } from "../context/AuthContext"; // Use custom AuthContext
+import { useAuth } from "../context/AuthContext";
 
 const Write = () => {
   const { user } = useAuth(); // Access user from AuthContext
@@ -17,6 +17,7 @@ const Write = () => {
   const [img, setImg] = useState(""); // Image to upload
   const [video, setVideo] = useState(""); // Video to upload
   const [progress, setProgress] = useState(0); // Upload progress
+  const [uploading, setUploading] = useState(false); // Uploading state
 
   const navigate = useNavigate();
 
@@ -77,7 +78,14 @@ const Write = () => {
       <form onSubmit={handleSubmit} className="flex flex-col gap-6 flex-1 mb-6">
         <div className="flex flex-row gap-4 items-center">
           {/* Cover image upload */}
-          <Upload type="image" setProgress={setProgress} setData={setCover}>
+          <Upload
+            type="image"
+            setProgress={(progress) => {
+              setProgress(progress);
+              setUploading(progress > 0 && progress < 100);
+            }}
+            setData={setCover}
+          >
             <button
               type="button"
               className="w-max p-2 shadow-md rounded-xl text-sm text-gray-500 bg-white"
@@ -85,8 +93,17 @@ const Write = () => {
               Add a cover image
             </button>
           </Upload>
-          {/* Display uploaded cover image */}
-          {cover && (cover?.filePath || cover.url) && (
+          {/* Display uploaded cover image or progress */}
+          {uploading ? (
+            <div className="relative w-12 h-12">
+              <div className="absolute inset-0 bg-blue-200 rounded-full">
+                <div
+                  className="absolute inset-0 bg-blue-500 rounded-full"
+                  style={{ height: `${progress}%` }}
+                ></div>
+              </div>
+            </div>
+          ) : cover && (cover?.filePath || cover.url) ? (
             <Image
               src={cover?.filePath || "/placeholderimg.jpg"}
               alt="Cover Thumbnail"
@@ -94,7 +111,7 @@ const Write = () => {
               width={48}
               height={48}
             />
-          )}
+          ) : null}
         </div>
         <input
           className="text-4xl font-semibold bg-transparent outline-none"
@@ -149,7 +166,6 @@ const Write = () => {
             {mutation.isPending ? "Loading" : "Send"}
           </button>
         </div>
-        {"Progress: " + progress}
       </form>
     </div>
   );

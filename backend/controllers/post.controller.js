@@ -173,6 +173,8 @@ export const deletePost = async (req, res) => {
 
 // Feature a post
 export const featurePost = async (req, res) => {
+  console.log(req.user);
+
   try {
     const role = req.user.role || "user";
 

@@ -73,7 +73,9 @@ export const loginUser = async (req, res) => {
     }
 
     // Generate a JWT
-    const token = jwt.sign({ id: user._id }, JWT_SECRET, { expiresIn: "1h" });
+    const token = jwt.sign({ id: user._id, role: user.role }, JWT_SECRET, {
+      expiresIn: "3h",
+    });
 
     res.status(200).json({ message: "Login successful", token });
   } catch (err) {
@@ -108,13 +110,16 @@ export const githubCallback = async (req, res) => {
   try {
     // Passport attaches the authenticated user to req.user
     const user = req.user;
+    //console.log(req.user.role);
 
     if (!user) {
       return res.status(400).json({ message: "GitHub authentication failed" });
     }
 
     // Generate a JWT token for the authenticated user
-    const token = jwt.sign({ id: user._id }, JWT_SECRET, { expiresIn: "1h" });
+    const token = jwt.sign({ id: user._id, role: user.role }, JWT_SECRET, {
+      expiresIn: "3h",
+    });
 
     // Redirect the user back to the frontend with the token
     res.redirect(`${process.env.CLIENT_URL}?token=${token}`);
@@ -128,7 +133,7 @@ export const githubCallback = async (req, res) => {
 
 // GitHub/Google Login or Register
 export const oauthLogin = async (req, res) => {
-  const { provider, id, username, email, img } = req.body;
+  const { provider, id, role, username, email, img } = req.body;
 
   if (!provider || !id || !username || !email) {
     return res.status(400).json({ message: "Missing required fields" });
@@ -145,6 +150,7 @@ export const oauthLogin = async (req, res) => {
         providerId: id,
         username,
         email,
+        role,
         img,
       });
 
@@ -152,7 +158,9 @@ export const oauthLogin = async (req, res) => {
     }
 
     // Generate a JWT
-    const token = jwt.sign({ id: user._id }, JWT_SECRET, { expiresIn: "1h" });
+    const token = jwt.sign({ id: user._id, role: user.role }, JWT_SECRET, {
+      expiresIn: "3h",
+    });
 
     res.status(200).json({ message: "Login successful", token });
   } catch (err) {

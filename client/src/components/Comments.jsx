@@ -1,4 +1,5 @@
 import axios from "axios";
+import { useNavigate } from "react-router-dom";
 import Comment from "./Comment";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { useAuth } from "../context/AuthContext"; // Use custom AuthContext
@@ -13,6 +14,7 @@ const fetchComments = async (postId) => {
 
 const Comments = ({ postId }) => {
   const { user } = useAuth(); // Access user from AuthContext
+  const navigate = useNavigate();
 
   const { isLoading, error, data } = useQuery({
     queryKey: ["comments", postId],
@@ -45,6 +47,14 @@ const Comments = ({ postId }) => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
+
+    // Redirect to login if the user is not logged in
+    if (!user) {
+      toast.warn("You need to log in to submit a comment");
+      navigate("/login"); // Redirect to the login page
+      return;
+    }
+
     const formData = new FormData(e.target);
 
     const data = {
@@ -83,8 +93,8 @@ const Comments = ({ postId }) => {
                 desc: `${mutation.variables.desc} (Sending...)`,
                 createdAt: new Date(),
                 user: {
-                  img: user.img || "", // Use user image from AuthContext
-                  username: user.username || "Anonymous", // Use username from AuthContext
+                  img: user?.img || "default-avatar.png", // Use user image from AuthContext
+                  username: user?.username || "Anonymous", // Use username from AuthContext
                 },
               }}
             />

@@ -17,11 +17,11 @@ const Homepage = () => {
         {/*Titles*/}
         <div className="">
           <h1 className="text-gray-800 tex-2xl md:text-5xl lg:text-6xl font-bold">
-            Lorem ipsum dolor sit amet consectetur adipisicing elit.
+            Empowering Minds with Insights on Cyber and Tech.
           </h1>
           <p className="mt-8 text-md md:text-xl">
-            Lorem ipsum dolor sit amet consectetur adipisicing elit. Quas
-            repudiandae similique.
+            Your Daily Dose of Cybersecurity Insights and Technological
+            Breakthroughs
           </p>
         </div>
         {/*Animated Button*/}

@@ -34,16 +34,19 @@ const Comment = ({ comment, postId }) => {
     },
   });
 
+  // Default image if user image is null or undefined
+  const defaultImage = "default-avatar.png";
+  const userImage = comment.user.img || defaultImage;
+
   return (
     <div className="p-4 bg-slate-50 rounded-xl mb-8">
       <div className="flex items-center gap-4">
-        {comment.user.img && (
-          <Image
-            src={comment.user.img}
-            className="w-10 h-10 rounded-full object-cover"
-            width="40"
-          />
-        )}
+        <Image
+          src={userImage}
+          className="w-10 h-10 rounded-full object-cover"
+          width="40"
+          alt={`${comment.user.username}'s avatar`}
+        />
         <span className="font-medium">{comment.user.username}</span>
         <span className="text-sm text-gray-500">
           {format(comment.createdAt)}
