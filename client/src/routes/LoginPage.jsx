@@ -6,8 +6,8 @@ import { toast } from "react-toastify";
 const LoginPage = () => {
   const { login } = useAuth();
   const navigate = useNavigate();
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
+  const [email, setEmail] = useState("visitor@cyber-blog");
+  const [password, setPassword] = useState("1q2w3e4r");
   const [loading, setLoading] = useState(false);
 
   const handleSubmit = async (e) => {

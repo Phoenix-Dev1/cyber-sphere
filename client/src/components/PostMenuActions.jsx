@@ -10,6 +10,8 @@ const PostMenuActions = ({ post }) => {
 
   const queryClient = useQueryClient();
 
+  const shouldFetchSavedPosts = !!user;
+
   // Fetch saved posts
   const {
     isLoading,
@@ -29,6 +31,7 @@ const PostMenuActions = ({ post }) => {
       );
       return res.data;
     },
+    enabled: shouldFetchSavedPosts, // Only fetch if user exists
   });
 
   const isAdmin = user?.role === "admin";
@@ -81,6 +84,10 @@ const PostMenuActions = ({ post }) => {
   const featureMutation = useMutation({
     mutationFn: async () => {
       const token = localStorage.getItem("authToken");
+
+      if (!user) {
+        return <p>Please log in to access actions.</p>;
+      }
       return axios.patch(
         `${import.meta.env.VITE_API_URL}/posts/feature`,
         { postId: post._id },

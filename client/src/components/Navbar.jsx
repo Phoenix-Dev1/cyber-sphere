@@ -9,16 +9,6 @@ const Navbar = () => {
   const { user, logout } = useAuth(); // Access user and logout from AuthContext
   const [searchParams, setSearchParams] = useSearchParams();
 
-  // Filter by options
-  const handleFilterChange = (e) => {
-    if (searchParams.get("sort") !== e.target.value) {
-      setSearchParams({
-        ...Object.fromEntries(searchParams.entries()),
-        sort: e.target.value,
-      });
-    }
-  };
-
   return (
     <div className="w-full h-16 md:h-20 flex items-center justify-between">
       {/* LOGO */}
@@ -42,12 +32,20 @@ const Navbar = () => {
             open ? "-right-0" : "-right-[100%] z-10"
           }`}
         >
-          <Link to="/">Home</Link>
-          <Link to="/">Trending</Link>
-          <Link to="/">Most Popular</Link>
-          <Link to="/">About</Link>
+          <Link to="/" onClick={() => setOpen(false)}>
+            Home
+          </Link>
+          <Link to="/posts?sort=trending" onClick={() => setOpen(false)}>
+            Trending
+          </Link>
+          <Link to="/posts?sort=popular" onClick={() => setOpen(false)}>
+            Most Popular
+          </Link>
+          <Link to="/about" onClick={() => setOpen(false)}>
+            About
+          </Link>
           {!user ? (
-            <Link to="/login">
+            <Link to="/login" onClick={() => setOpen(false)}>
               <button className="py-2 px-4 rounded-3xl bg-royalblue text-white">
                 Login
               </button>
@@ -66,9 +64,9 @@ const Navbar = () => {
       {/* DESKTOP MENU */}
       <div className="hidden md:flex items-center gap-8 xl-gap-12 font-medium">
         <Link to="/">Home</Link>
-        <Link to="/">Trending</Link>
-        <Link to="/">Most Popular</Link>
-        <Link to="/">About</Link>
+        <Link to="/posts?&sort=trending">Trending</Link>
+        <Link to="/posts?sort=popular">Most Popular</Link>
+        <Link to="/about">About</Link>
         {!user ? (
           <Link to="/login">
             <button className="py-2 px-4 rounded-3xl bg-royalblue text-white">

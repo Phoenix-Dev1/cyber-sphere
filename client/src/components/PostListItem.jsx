@@ -18,7 +18,7 @@ const PostListItem = ({ post }) => {
         </div>
       )}
       {/* Details */}
-      <div className="flex flex-col gap-4 w-2/3">
+      <div className="flex flex-col gap-4 w-11/12">
         <Link to={`/${post.slug}`} className="text-4xl font-semibold">
           {post.title}
         </Link>
@@ -31,14 +31,17 @@ const PostListItem = ({ post }) => {
             {post.user?.username}
           </Link>
           <span>on</span>
-          <Link to={`/${post.category}`} className="text-royalblue">
+          <Link to={`/posts?cat=${post.category}`} className="text-royalblue">
             {formatCategory(post.category)}
           </Link>
           <span>{format(post.createdAt)}</span>
         </div>
         {/* Description */}
         <p className="">{post.desc}</p>
-        <Link to={`/${post.slug}`} className="underline text-royalblue text-sm">
+        <Link
+          to={`/${post.slug}`}
+          className="underline text-royalblue text-sm w-11/12"
+        >
           Read More
         </Link>
       </div>
