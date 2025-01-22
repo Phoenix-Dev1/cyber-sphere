@@ -1,7 +1,13 @@
 import { IKImage } from "imagekitio-react";
 
 const Image = ({ src, className, width, height, alt }) => {
-  const isExternalUrl = src.startsWith("http://") || src.startsWith("https://");
+  if (!src || src.trim() === "") {
+    // Avoid rendering the element if src is empty or null
+    return null;
+  }
+
+  const isExternalUrl =
+    src?.startsWith("http://") || src?.startsWith("https://");
 
   if (isExternalUrl) {
     // Render a regular <img> tag for external URLs

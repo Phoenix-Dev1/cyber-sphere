@@ -3,9 +3,9 @@ import passport from "passport";
 import {
   registerUser,
   loginUser,
-  oauthLogin,
   getUserData,
   githubCallback,
+  googleCallback,
 } from "../controllers/auth.controller.js";
 
 const router = express.Router();
@@ -33,6 +33,29 @@ router.get(
     session: false,
   }), // Disable session
   githubCallback
+);
+
+// Google OAuth
+router.get(
+  "/google",
+  passport.authenticate("google", {
+    scope: ["profile", "email"],
+    session: false,
+  })
+);
+
+// Google OAuth Callback
+router.get(
+  "/google/callback",
+  (req, res, next) => {
+    console.log("Google callback hit:", req.query);
+    next();
+  },
+  passport.authenticate("google", {
+    failureRedirect: "/login",
+    session: false,
+  }),
+  googleCallback
 );
 
 export default router;

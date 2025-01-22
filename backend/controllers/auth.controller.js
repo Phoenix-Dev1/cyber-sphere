@@ -131,40 +131,26 @@ export const githubCallback = async (req, res) => {
   }
 };
 
-// GitHub/Google Login or Register
-export const oauthLogin = async (req, res) => {
-  const { provider, id, role, username, email, img } = req.body;
-
-  if (!provider || !id || !username || !email) {
-    return res.status(400).json({ message: "Missing required fields" });
-  }
-
+// Google OAuth Callback
+export const googleCallback = async (req, res) => {
   try {
-    // Find the user by provider ID
-    let user = await User.findOne({ providerId: id });
+    const user = req.user;
 
     if (!user) {
-      // Register the user if they don't exist
-      user = new User({
-        authProvider: provider,
-        providerId: id,
-        username,
-        email,
-        role,
-        img,
-      });
-
-      await user.save();
+      return res.status(400).json({ message: "Google authentication failed" });
     }
 
-    // Generate a JWT
+    // Generate JWT
     const token = jwt.sign({ id: user._id, role: user.role }, JWT_SECRET, {
       expiresIn: "3h",
     });
 
-    res.status(200).json({ message: "Login successful", token });
+    // Redirect to frontend with the token
+    res.redirect(`${process.env.CLIENT_URL}?token=${token}`);
   } catch (err) {
-    console.error(err);
-    res.status(500).json({ message: "Error logging in", error: err.message });
+    console.error("Error in Google callback:", err);
+    res
+      .status(500)
+      .json({ message: "Google login failed", error: err.message });
   }
 };

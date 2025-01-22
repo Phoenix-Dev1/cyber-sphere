@@ -10,7 +10,6 @@ import Search from "../components/Search";
 import Comments from "../components/Comments";
 import { useQuery } from "@tanstack/react-query";
 import axios from "axios";
-import { useAuth } from "../context/AuthContext";
 import { formatCategory } from "../utils/formatCategory";
 import { format } from "timeago.js";
 import DOMPurify from "dompurify";
@@ -29,7 +28,6 @@ const decodeHtmlEntities = (input) => {
 
 const SinglePostPage = () => {
   const { slug } = useParams();
-  const { user } = useAuth();
   const [searchParams, setSearchParams] = useSearchParams();
   const navigate = useNavigate();
 
@@ -100,7 +98,7 @@ const SinglePostPage = () => {
         {data.img && (
           <div className="hidden lg:block w-2/5">
             <Image
-              src={data.img}
+              src={data?.img}
               width="400"
               height="600"
               className="rounded-2xl"
@@ -119,16 +117,17 @@ const SinglePostPage = () => {
           <h1 className="mb-4 text-sm font-medium">Author</h1>
           <div className="flex  flex-col gap-4">
             <div className="flex items-center gap-4">
-              {data.img && (
-                <Image
-                  src={data?.user?.img || "default-avatar.png"}
-                  className="w-12 h-12 rounded-full object-cover"
-                  width="48"
-                  height="48"
-                />
-              )}
-              <Link to="" className="text-royalblue">
-                {data.user?.username}
+              <Image
+                src={data?.user?.img || "default-avatar.png"}
+                className="w-12 h-12 rounded-full object-cover"
+                width="48"
+                height="48"
+              />
+              <Link
+                to={`/posts?author=${data?.user?.username}`}
+                className="text-royalblue"
+              >
+                {data?.user?.username}
               </Link>
             </div>
             <p className="text-sm text-gray-500">Cybersecurity enthusiast</p>
