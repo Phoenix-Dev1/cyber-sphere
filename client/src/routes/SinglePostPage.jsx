@@ -132,12 +132,12 @@ const SinglePostPage = () => {
             </div>
             <p className="text-sm text-gray-500">Cybersecurity enthusiast</p>
             <div className="flex gap-2">
-              <Link>
+              <a href="https://www.facebook.com" target="_blank">
                 <Image src="facebook.svg" />
-              </Link>
-              <Link>
+              </a>
+              <a href="https://www.instagram.com" target="_blank">
                 <Image src="instagram.svg" />
-              </Link>
+              </a>
             </div>
           </div>
           <PostMenuActions post={data} />

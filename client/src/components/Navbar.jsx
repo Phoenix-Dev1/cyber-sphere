@@ -52,7 +52,10 @@ const Navbar = () => {
             </Link>
           ) : (
             <button
-              onClick={logout}
+              onClick={() => {
+                logout(true);
+                setOpen(false);
+              }}
               className="py-2 px-4 rounded-3xl bg-red-500 text-white"
             >
               Logout
